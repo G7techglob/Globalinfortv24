@@ -438,3 +438,49 @@ button{
   }
 
 }
+
+/* BREAKING NEWS TICKER */
+.ticker-wrap {
+  display: flex;
+  align-items: center;
+  background: #111;
+  color: #fff;
+  overflow: hidden;
+  border-top: 3px solid red;
+  border-bottom: 3px solid red;
+}
+
+.ticker-title {
+  background: red;
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.ticker-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 18s linear infinite;
+}
+
+.ticker-content span {
+  display: inline-block;
+  margin-right: 50px;
+  font-size: 14px;
+}
+
+/* Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
