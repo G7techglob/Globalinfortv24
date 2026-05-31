@@ -48,27 +48,24 @@ button{
   z-index:1000;
 }
 
-.logo-box{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.logo a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
 }
 
-.logo-img{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  object-fit:cover;
+.logo img{
+    width:50px;
+    height:50px;
+    display:block;
 }
 
-.logo-text h1{
-  font-size:20px;
-  color:#0057b8;
+.logo span{
+    color:#0056b3;
+    font-size:24px;
+    font-weight:700;
 }
-
-.logo-text p{
-  font-size:13px;
-  color:#777;
 }
 
 .navbar{
