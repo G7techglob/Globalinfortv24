@@ -1,92 +1,89 @@
 const newsGrid = document.querySelector(".news-grid");
 
 /* =========================
-   ENTERTAINMENT RSS FEEDS
+   MOBILE MENU
 ========================= */
-const feeds = [
-  "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
-  "https://www.billboard.com/feed/",
-  "https://www.rollingstone.com/music/music-news/feed/",
+document.addEventListener("DOMContentLoaded", () => {
+    const menuBtn = document.getElementById("menu-btn");
+    const navbar = document.getElementById("navbar");
 
-  // Africa / Nollywood
-  "https://www.pulse.ng/rss/entertainment.rss",
-  "https://guardian.ng/category/life/entertainment/feed/",
-  "https://www.premiumtimesng.com/feed"
-];
-
-/* =========================
-   CORS PROXY (MORE STABLE)
-========================= */
-const PROXY = "https://api.allorigins.win/raw?url=";
-
-/* =========================
-   SAFE IMAGE FALLBACK
-========================= */
-const DEFAULT_IMG = "https://via.placeholder.com/400x250?text=Entertainment+News";
-
-/* =========================
-   LOAD RSS FUNCTION
-========================= */
-async function loadRSS(feed) {
-  try {
-    const res = await fetch(PROXY + encodeURIComponent(feed));
-
-    if (!res.ok) {
-      console.log("❌ Feed failed:", feed, res.status);
-      return;
+    if (menuBtn && navbar) {
+        menuBtn.addEventListener("click", () => {
+            navbar.classList.toggle("active");
+        });
     }
+});
 
-    const text = await res.text();
+/* =========================
+   API CONFIG (FIXED)
+========================= */
+const API_KEY = "14e954bebbf81fbd09a409f95f46a412";
 
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, "text/xml");
+const URL =
+`https://gnews.io/api/v4/top-headlines?category=entertainment&lang=en&max=20&token=${API_KEY}`;
 
-    const items = xml.querySelectorAll("item");
+/* =========================
+   FALLBACK IMAGE
+========================= */
+const DEFAULT_IMG =
+"https://via.placeholder.com/600x350?text=Entertainment+News";
 
-    if (!items.length) {
-      console.log("⚠️ No items in feed:", feed);
-      return;
+/* =========================
+   LOAD NEWS
+========================= */
+async function loadNews() {
+
+    try {
+
+        const res = await fetch(URL);
+
+        if (!res.ok) {
+            throw new Error("API request failed: " + res.status);
+        }
+
+        const data = await res.json();
+
+        newsGrid.innerHTML = "";
+
+        if (!data.articles || data.articles.length === 0) {
+            newsGrid.innerHTML = "<p>No news found.</p>";
+            return;
+        }
+
+        data.articles.forEach(article => {
+
+            const image = article.image || DEFAULT_IMG;
+
+            const card = document.createElement("article");
+            card.className = "news-card";
+
+            card.innerHTML = `
+                <img src="${image}" onerror="this.src='${DEFAULT_IMG}'" alt="">
+                
+                <div class="card-content">
+                    <span>Entertainment</span>
+                    <h3>${article.title || "No title"}</h3>
+                    <p>${article.description || ""}</p>
+
+                    <a href="${article.url}" target="_blank" rel="noopener noreferrer">
+                        <button class="card-btn">Read Story</button>
+                    </a>
+                </div>
+            `;
+
+            newsGrid.appendChild(card);
+
+        });
+
+    } catch (error) {
+        console.log("API Error:", error);
+
+        newsGrid.innerHTML = `
+            <p style="color:red; font-weight:bold;">
+                Failed to load news. Check API key or internet connection.
+            </p>
+        `;
     }
-
-    items.forEach((item, index) => {
-      if (index > 5) return; // limit per feed
-
-      const title =
-        item.querySelector("title")?.textContent || "No title";
-
-      const link =
-        item.querySelector("link")?.textContent || "#";
-
-      // FIX: safer image extraction
-      let img =
-        item.querySelector("enclosure")?.getAttribute("url") ||
-        item.querySelector("media\\:content")?.getAttribute("url") ||
-        item.querySelector("mediaContent")?.getAttribute("url") ||
-        DEFAULT_IMG;
-
-      const card = document.createElement("article");
-      card.className = "news-card";
-
-      card.innerHTML = `
-        <img src="${img}" onerror="this.src='${DEFAULT_IMG}'" alt="">
-        <div class="card-content">
-          <span>Entertainment</span>
-          <h3>${title}</h3>
-          <a href="${link}" target="_blank">
-            <button class="card-btn">Read Story</button>
-          </a>
-        </div>
-      `;
-
-      newsGrid.appendChild(card);
-    });
-
-  } catch (err) {
-    console.log("RSS ERROR:", feed, err);
-  }
 }
 
-/* =========================
-   LOAD ALL FEEDS
-========================= */
-feeds.forEach(loadRSS);
+loadNews();
