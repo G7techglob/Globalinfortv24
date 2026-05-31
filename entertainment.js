@@ -1,67 +1,88 @@
-// MOBILE MENU
-
-const feeds = [
-  "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
-  "https://www.billboard.com/feed/",
-  "https://www.rollingstone.com/music/music-news/feed/",
-  "https://variety.com/feed/"
-];
 const newsGrid = document.querySelector(".news-grid");
 
-feeds.forEach(feed => {
-  fetch(API + encodeURIComponent(feed))
-    .then(res => res.json())
-    .then(data => {
+/* =========================
+   ENTERTAINMENT RSS FEEDS
+========================= */
+const feeds = [
+  // 🌍 Global / Hollywood / Entertainment
+  "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
 
-      data.items.slice(0, 4).forEach(item => {
+  // 🎵 Music / Global entertainment
+  "https://www.billboard.com/feed/",
+  "https://www.rollingstone.com/music/music-news/feed/",
 
-        const card = document.createElement("article");
-        card.className = "news-card";
+  // 🇳🇬 Nollywood / African entertainment
+  "https://www.pulse.ng/rss/entertainment.rss",
+  "https://www.pulse.ng/rss/news.rss",
+  "https://guardian.ng/category/life/entertainment/feed/",
+  "https://www.premiumtimesng.com/feed"
+];
 
-        card.innerHTML = `
-          <img src="${item.thumbnail || 'images/default.jpg'}" alt="">
-          <div class="card-content">
-            <span>Entertainment</span>
-            <h3>${item.title}</h3>
-            <a href="${item.link}" target="_blank">
-              <button class="card-btn">Read Story</button>
-            </a>
-          </div>
-        `;
+/* =========================
+   RSS PROXY (CORS FIX)
+========================= */
+const API = "https://api.allorigins.win/get?url=";
 
-        newsGrid.appendChild(card);
+/* =========================
+   LOAD RSS FUNCTION
+========================= */
+async function loadRSS(feed) {
+  try {
+    const res = await fetch(API + encodeURIComponent(feed));
 
-      });
+    if (!res.ok) {
+      throw new Error("Network error: " + res.status);
+    }
 
-    })
-    .catch(err => console.log("RSS error:", err));
-});
+    const data = await res.json();
 
-const API = "https://api.rss2json.com/v1/api.json?rss_url=";
-const menuBtn = document.getElementById("menu-btn");
-const navbar = document.getElementById("navbar");
+    if (!data.contents) {
+      console.log("No content:", feed);
+      return;
+    }
 
-menuBtn.addEventListener("click", () => {
-  navbar.classList.toggle("active");
-});
+    // Parse XML
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, "text/xml");
 
-// HERO BUTTON
+    const items = xml.querySelectorAll("item");
 
-const heroBtn = document.getElementById("hero-btn");
+    items.forEach((item, index) => {
+      if (index > 4) return; // limit per feed
 
-heroBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 700,
-    behavior: "smooth"
-  });
-});
+      const title =
+        item.querySelector("title")?.textContent || "No title";
 
-// SUBSCRIBE BUTTON
+      const link =
+        item.querySelector("link")?.textContent || "#";
 
-const subscribeBtn = document.getElementById("subscribe-btn");
+      const img =
+        item.querySelector("enclosure")?.getAttribute("url") ||
+        "https://via.placeholder.com/300x200";
 
-subscribeBtn.addEventListener("click", () => {
+      const card = document.createElement("article");
+      card.className = "news-card";
 
-  alert("Thank you for subscribing to GlobalInforTV24 Entertainment News!");
+      card.innerHTML = `
+        <img src="${img}" alt="">
+        <div class="card-content">
+          <span>Entertainment</span>
+          <h3>${title}</h3>
+          <a href="${link}" target="_blank">
+            <button class="card-btn">Read Story</button>
+          </a>
+        </div>
+      `;
 
-});
+      newsGrid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.log("RSS Load Error:", err);
+  }
+}
+
+/* =========================
+   LOAD ALL FEEDS
+========================= */
+feeds.forEach(loadRSS);
