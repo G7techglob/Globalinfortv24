@@ -1,91 +1,112 @@
 const newsGrid = document.getElementById("newsGrid");
+const menuBtn = document.getElementById("menuBtn");
+const navbar = document.getElementById("navbar");
+const refreshBtn = document.getElementById("refreshBtn");
 
-// Political RSS feeds
+/* MENU */
+
+menuBtn.addEventListener("click", () => {
+navbar.classList.toggle("active");
+});
+
+/* RSS FEEDS */
+
 const feeds = [
-  "https://feeds.bbci.co.uk/news/politics/rss.xml",
-  "https://www.aljazeera.com/xml/rss/all.xml"
+
+"https://feeds.bbci.co.uk/news/politics/rss.xml",
+
+"https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+
+"https://www.aljazeera.com/xml/rss/all.xml"
+
 ];
 
-// RSS to JSON API
-const API = "https://api.rss2json.com/v1/api.json?rss_url=";
+const API =
+"https://api.rss2json.com/v1/api.json?rss_url=";
 
-// Load RSS news
 async function loadNews() {
-  try {
-    let allItems = [];
 
-    for (const feed of feeds) {
-      const response = await fetch(API + encodeURIComponent(feed));
-      const data = await response.json();
+newsGrid.innerHTML =
+"<div class='loading'>Loading Political News...</div>";
 
-      if (data.items) {
-        allItems = allItems.concat(data.items);
-      }
-    }
+let articles = [];
 
-    // Sort newest first
-    allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+for(const feed of feeds){
 
-    displayNews(allItems.slice(0, 12));
+try{
 
-  } catch (error) {
-    console.error("RSS Error:", error);
+const response =
+await fetch(API + encodeURIComponent(feed));
 
-    newsGrid.innerHTML = `
-      <div class="error-message">
-        Failed to load political news.
-      </div>
-    `;
-  }
+const data = await response.json();
+
+if(data.items){
+
+articles = articles.concat(
+data.items.slice(0,5)
+);
+
 }
 
-// Display news cards
-function displayNews(items) {
-  newsGrid.innerHTML = "";
+}catch(error){
 
-  items.forEach(item => {
+console.log(error);
 
-    const image =
-      item.thumbnail ||
-      item.enclosure?.link ||
-      "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=1200&auto=format&fit=crop";
-
-    const description = item.description
-      ? item.description.replace(/<[^>]*>/g, "").slice(0, 150)
-      : "Click to read the full article.";
-
-    const card = document.createElement("article");
-    card.className = "news-card";
-
-    card.innerHTML = `
-      <img src="${image}" alt="${item.title}" loading="lazy">
-
-      <div class="news-content">
-        <span class="category">Politics</span>
-
-        <h4>${item.title}</h4>
-
-        <p>${description}...</p>
-
-        <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-          Read More
-        </a>
-      </div>
-    `;
-
-    newsGrid.appendChild(card);
-  });
 }
 
-// Mobile Menu
-const menuBtn = document.getElementById("menuBtn");
-const navMenu = document.getElementById("navMenu");
-
-if (menuBtn && navMenu) {
-  menuBtn.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-  });
 }
 
-// Run
+displayNews(articles);
+
+}
+
+function displayNews(news){
+
+newsGrid.innerHTML="";
+
+news.sort(() => Math.random()-0.5);
+
+news.forEach(article=>{
+
+const card=document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<img src="${
+article.thumbnail ||
+'https://via.placeholder.com/600x400'
+}" alt="News">
+
+<div class="card-content">
+
+<h3>${article.title}</h3>
+
+<p>
+${article.description
+.replace(/<[^>]+>/g,'')
+.substring(0,120)}...
+</p>
+
+<a
+href="${article.link}"
+target="_blank"
+class="read-btn"
+>
+Read More
+</a>
+
+</div>
+
+`;
+
+newsGrid.appendChild(card);
+
+});
+
+}
+
+refreshBtn.addEventListener("click",loadNews);
+
 loadNews();
