@@ -1,89 +1,112 @@
-const newsGrid = document.querySelector(".news-grid");
+const newsGrid = document.getElementById("newsGrid");
+const menuBtn = document.getElementById("menuBtn");
+const navbar = document.getElementById("navbar");
+const refreshBtn = document.getElementById("refreshBtn");
 
 /* =========================
    MOBILE MENU
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-    const menuBtn = document.getElementById("menu-btn");
-    const navbar = document.getElementById("navbar");
 
-    if (menuBtn && navbar) {
-        menuBtn.addEventListener("click", () => {
-            navbar.classList.toggle("active");
-        });
-    }
+menuBtn.addEventListener("click", () => {
+    navbar.classList.toggle("active");
 });
 
 /* =========================
-   API CONFIG (FIXED)
+   RSS FEEDS
 ========================= */
-const API_KEY = "14e954bebbf81fbd09a409f95f46a412";
 
-const URL =
-`https://gnews.io/api/v4/top-headlines?category=entertainment&lang=en&max=20&token=${API_KEY}`;
+const feeds = [
+"https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+"https://www.nme.com/rss/news",
+"https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml"
+];
 
-/* =========================
-   FALLBACK IMAGE
-========================= */
-const DEFAULT_IMG =
-"https://via.placeholder.com/600x350?text=Entertainment+News";
+const API =
+"https://api.rss2json.com/v1/api.json?rss_url=";
 
 /* =========================
    LOAD NEWS
 ========================= */
+
 async function loadNews() {
 
-    try {
+newsGrid.innerHTML =
+"<h2>Loading Entertainment News...</h2>";
 
-        const res = await fetch(URL);
+let allNews = [];
 
-        if (!res.ok) {
-            throw new Error("API request failed: " + res.status);
-        }
+for(const feed of feeds){
 
-        const data = await res.json();
+try{
 
-        newsGrid.innerHTML = "";
+const response =
+await fetch(API + encodeURIComponent(feed));
 
-        if (!data.articles || data.articles.length === 0) {
-            newsGrid.innerHTML = "<p>No news found.</p>";
-            return;
-        }
+const data =
+await response.json();
 
-        data.articles.forEach(article => {
+if(data.items){
 
-            const image = article.image || DEFAULT_IMG;
+allNews = allNews.concat(data.items);
 
-            const card = document.createElement("article");
-            card.className = "news-card";
-
-            card.innerHTML = `
-                <img src="${image}" onerror="this.src='${DEFAULT_IMG}'" alt="">
-                
-                <div class="card-content">
-                    <span>Entertainment</span>
-                    <h3>${article.title || "No title"}</h3>
-                    <p>${article.description || ""}</p>
-
-                    <a href="${article.url}" target="_blank" rel="noopener noreferrer">
-                        <button class="card-btn">Read Story</button>
-                    </a>
-                </div>
-            `;
-
-            newsGrid.appendChild(card);
-
-        });
-
-    } catch (error) {
-        console.log("API Error:", error);
-
-        newsGrid.innerHTML = `
-            <p style="color:red; font-weight:bold;">
-                Failed to load news. Check API key or internet connection.
-            </p>
-        `;
-    }
 }
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+displayNews(allNews.slice(0,24));
+
+}
+
+/* =========================
+   DISPLAY NEWS
+========================= */
+
+function displayNews(news){
+
+newsGrid.innerHTML = "";
+
+news.forEach(article=>{
+
+const card =
+document.createElement("div");
+
+card.classList.add("news-card");
+
+card.innerHTML = `
+<h3>${article.title}</h3>
+
+<p>
+${article.description
+.replace(/<[^>]*>/g,"")
+.substring(0,120)}...
+</p>
+
+<a href="${article.link}"
+target="_blank">
+Read Full Story →
+</a>
+`;
+
+newsGrid.appendChild(card);
+
+});
+
+}
+
+/* =========================
+   REFRESH BUTTON
+========================= */
+
+refreshBtn.addEventListener("click", loadNews);
+
+/* =========================
+   INITIAL LOAD
+========================= */
 
 loadNews();
