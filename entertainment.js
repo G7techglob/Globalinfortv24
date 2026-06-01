@@ -7,22 +7,23 @@ const refreshBtn = document.getElementById("refreshBtn");
    MOBILE MENU
 ========================= */
 
-menuBtn.addEventListener("click", () => {
-    navbar.classList.toggle("active");
-});
+if (menuBtn && navbar) {
+    menuBtn.addEventListener("click", () => {
+        navbar.classList.toggle("active");
+    });
+}
 
 /* =========================
    RSS FEEDS
 ========================= */
 
 const feeds = [
-"https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
-"https://www.nme.com/rss/news",
-"https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml"
+    "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+    "https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml"
 ];
 
-const API =
-"https://api.rss2json.com/v1/api.json?rss_url=";
+/* RSS to JSON API */
+const API = "https://api.rss2json.com/v1/api.json?rss_url=";
 
 /* =========================
    LOAD NEWS
@@ -30,83 +31,102 @@ const API =
 
 async function loadNews() {
 
-newsGrid.innerHTML =
-"<h2>Loading Entertainment News...</h2>";
+    if (!newsGrid) return;
 
-let allNews = [];
+    newsGrid.innerHTML = `
+        <div class="news-card">
+            <h3>Loading Entertainment News...</h3>
+        </div>
+    `;
 
-for(const feed of feeds){
+    let allNews = [];
 
-try{
+    for (const feed of feeds) {
 
-const response =
-await fetch(API + encodeURIComponent(feed));
+        try {
 
-const data =
-await response.json();
+            const response = await fetch(
+                API + encodeURIComponent(feed)
+            );
 
-if(data.items){
+            const data = await response.json();
 
-allNews = allNews.concat(data.items);
+            if (data.status === "ok" && data.items) {
+                allNews = allNews.concat(data.items);
+            }
 
-}
+        } catch (error) {
+            console.error("Feed Error:", error);
+        }
+    }
 
-}catch(error){
+    if (allNews.length === 0) {
 
-console.error(error);
+        newsGrid.innerHTML = `
+            <div class="news-card">
+                <h3>No News Available</h3>
+                <p>
+                    Unable to load RSS feeds.
+                    Try again later.
+                </p>
+            </div>
+        `;
 
-}
+        return;
+    }
 
-}
-
-displayNews(allNews.slice(0,24));
-
+    displayNews(allNews.slice(0, 24));
 }
 
 /* =========================
    DISPLAY NEWS
 ========================= */
 
-function displayNews(news){
+function displayNews(news) {
 
-newsGrid.innerHTML = "";
+    newsGrid.innerHTML = "";
 
-news.forEach(article=>{
+    news.forEach(article => {
 
-const card =
-document.createElement("div");
+        const card = document.createElement("div");
 
-card.classList.add("news-card");
+        card.className = "news-card";
 
-card.innerHTML = `
-<h3>${article.title}</h3>
+        const description =
+            article.description
+            ? article.description
+                .replace(/<[^>]*>/g, "")
+                .substring(0, 150)
+            : "No description available.";
 
-<p>
-${article.description
-.replace(/<[^>]*>/g,"")
-.substring(0,120)}...
-</p>
+        card.innerHTML = `
+            <h3>${article.title}</h3>
 
-<a href="${article.link}"
-target="_blank">
-Read Full Story →
-</a>
-`;
+            <p>${description}...</p>
 
-newsGrid.appendChild(card);
+            <a href="${article.link}"
+               target="_blank"
+               rel="noopener noreferrer">
+               Read Full Story →
+            </a>
+        `;
 
-});
-
+        newsGrid.appendChild(card);
+    });
 }
 
 /* =========================
    REFRESH BUTTON
 ========================= */
 
-refreshBtn.addEventListener("click", loadNews);
+if (refreshBtn) {
+    refreshBtn.addEventListener("click", loadNews);
+}
 
 /* =========================
    INITIAL LOAD
 ========================= */
 
-loadNews();
+document.addEventListener("DOMContentLoaded", () => {
+    loadNews();
+});
