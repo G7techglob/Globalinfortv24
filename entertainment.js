@@ -81,39 +81,79 @@ async function loadNews() {
 /* =========================
    DISPLAY NEWS
 ========================= */
-
 function displayNews(news) {
 
     newsGrid.innerHTML = "";
 
     news.forEach(article => {
 
-        const card = document.createElement("div");
+        const card = document.createElement("article");
 
         card.className = "news-card";
+
+        const image =
+            article.thumbnail ||
+            (article.enclosure ? article.enclosure.link : "") ||
+            "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1200";
 
         const description =
             article.description
             ? article.description
                 .replace(/<[^>]*>/g, "")
-                .substring(0, 150)
-            : "No description available.";
+                .substring(0, 180)
+            : "Latest entertainment news from around the world.";
+
+        const date =
+            article.pubDate
+            ? new Date(article.pubDate)
+                .toLocaleDateString()
+            : "Latest Update";
 
         card.innerHTML = `
-            <h3>${article.title}</h3>
 
-            <p>${description}...</p>
+            <img
+                src="${image}"
+                alt="${article.title}"
+                class="news-image"
+            >
 
-            <a href="${article.link}"
-               target="_blank"
-               rel="noopener noreferrer">
-               Read Full Story →
-            </a>
+            <div class="news-content">
+
+                <span class="category">
+                    ENTERTAINMENT
+                </span>
+
+                <h2>
+                    ${article.title}
+                </h2>
+
+                <p class="date">
+                    ${date}
+                </p>
+
+                <p>
+                    ${description}...
+                </p>
+
+                <a
+                    href="${article.link}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="read-btn"
+                >
+                    Read Full Story
+                </a>
+
+            </div>
+
         `;
 
         newsGrid.appendChild(card);
+
     });
+
 }
+
 
 /* =========================
    REFRESH BUTTON
