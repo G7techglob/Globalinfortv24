@@ -1,317 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlobalInforTV24 - Entertainment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalInforTV24 | Entertainment</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="entertainment.css" />
+<link rel="stylesheet" href="entertainment.css">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-
-  <div class="logo">
-    <a href="index.html">
+<header>
+    <div class="logo">
         <img src="images/logo1.png" alt="GlobalInforTV24 Logo">
         <span>GlobalInforTV24</span>
-    </a>
-  </div>
+    </div>
 
-    <nav class="navbar" id="navbar">
-      <a href="index.html">Home</a>
-      <a href="politics.html">political news</a>
-      <a href="business.html">business news</a>
-      <a href="sport.html">sport news</a>
-      <a href="world.html">world news</a>
-      <a href="contact.html">contact us</a>
+    <div class="hamburger" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="world.html">World</a>
+        <a href="technology.html">Technology</a>
+        <a href="politics.html">Politics</a>
+        <a href="sports.html">Sports</a>
+        <a href="entertainment.html">Entertainment</a>
     </nav>
+</header>
 
-    <div class="menu-btn" id="menu-btn">
-      <i class="fas fa-bars"></i>
-    </div>
-
-  </header>
-  <!-- BREAKING NEWS TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-title">BREAKING</div>
-
-  <div class="ticker">
-    <div class="ticker-content">
-      <span>🔥 Hollywood announces major new blockbuster release</span>
-      <span>🎤 Global music festival tickets sell out in minutes</span>
-      <span>⭐ Celebrity couple reveals surprise collaboration project</span>
-      <span>📺 Streaming platforms battle for top original series</span>
-      <span>🏆 Award season nominations shock fans worldwide</span>
-    </div>
-  </div>
-</div>
-
-  <!-- HERO -->
-  <section class="hero">
-
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-      <span class="breaking">Trending Entertainment</span>
-
-      <h2>
-        Latest Celebrity Stories, Movies & Music Updates
-      </h2>
-
-      <p>
-        Stay connected with worldwide entertainment headlines,
-        celebrity interviews, movie premieres and music trends.
-      </p>
-
-      <button class="hero-btn" id="hero-btn">
-        Explore News
-      </button>
-    </div>
-
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <main class="container">
-
-    <!-- LEFT -->
-    <section class="main-news">
-
-      <article class="featured-news">
-
-        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop"
-          alt="">
-
-        <div class="news-content">
-
-          <span class="category">Movies</span>
-
-          <h2>
-            Global Film Industry Sees Record Growth in Streaming Content
-          </h2>
-
-          <p>
-            Major movie studios are investing heavily in streaming platforms,
-            bringing new blockbuster releases directly to audiences worldwide.
-          </p>
-
-          <button class="read-btn">
-            Read More
-          </button>
-
-        </div>
-
-      </article>
-
-      <!-- NEWS GRID -->
-
-      <div class="news-grid">
-
-        <article class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop"
-            alt="">
-
-          <div class="card-content">
-
-            <span>Music</span>
-
-            <h3>
-              International Music Festivals Return with Huge Crowds
-            </h3>
-
-            <button class="card-btn">
-              View Story
-            </button>
-
-          </div>
-
-        </article>
-
-        <article class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=1200&auto=format&fit=crop"
-            alt="">
-
-          <div class="card-content">
-
-            <span>Celebrity</span>
-
-            <h3>
-              Top Celebrities Launch New Global Media Projects
-            </h3>
-
-            <button class="card-btn">
-              View Story
-            </button>
-
-          </div>
-
-        </article>
-
-        <article class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1200&auto=format&fit=crop"
-            alt="">
-
-          <div class="card-content">
-
-            <span>TV Shows</span>
-
-            <h3>
-              Streaming Platforms Compete for Best Original Series
-            </h3>
-
-            <button class="card-btn">
-              View Story
-            </button>
-
-          </div>
-
-        </article>
-
-        <article class="news-card">
-
-          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop"
-            alt="">
-
-          <div class="card-content">
-
-            <span>Awards</span>
-
-            <h3>
-              International Award Shows Gain Massive Online Viewership
-            </h3>
-
-            <button class="card-btn">
-              View Story
-            </button>
-
-          </div>
-
-        </article>
-
-      </div>
-
+<main>
+    <section class="hero">
+        <h1>Entertainment News</h1>
+        <p>Latest updates from movies, music, celebrities and global entertainment.</p>
     </section>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <button id="refreshBtn">Refresh News</button>
 
-      <div class="sidebar-box">
+    <div class="news-grid" id="newsGrid"></div>
+</main>
 
-        <h3>Trending Now</h3>
-
-        <ul>
-
-          <li>
-            <a href="#">
-              New blockbuster movie breaks streaming record
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              International artist announces world tour
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              Celebrity fashion trends dominate social media
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              TV drama series becomes global sensation
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-      <div class="sidebar-box subscribe-box">
-
-        <h3>Subscribe</h3>
-
-        <p>
-          Get daily entertainment updates from GlobalInforTV24.
-        </p>
-
-        <input type="email" placeholder="Enter email">
-
-        <button id="subscribe-btn">
-          Subscribe
-        </button>
-
-      </div>
-
-    </aside>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-
-    <div class="footer-logo">
-
-      <img src="images/logo1.png" alt="">
-
-      <h2>GlobalInforTV24</h2>
-
-    </div>
-
-    <p>
-      Worldwide entertainment news, celebrity stories, movies,
-      music and TV updates.
-    </p>
-
-    <div class="social-links">
-
-      <a href="https://facebook.com">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-
-      <a href="https://instagram.com">
-        <i class="fab fa-instagram"></i>
-      </a>
-
-      <a href="https://twitter.com">
-        <i class="fab fa-x-twitter"></i>
-      </a>
-
-      <a href="https://youtube.com">
-        <i class="fab fa-youtube"></i>
-      </a>
-
-      <a href="https://tiktok.com">
-        <i class="fab fa-tiktok"></i>
-      </a>
-
-    </div>
-
-    <p class="copyright">
-      © 2026 GlobalInforTV24. All Rights Reserved.
-    </p>
-
-  </footer>
-
-  <!-- JS -->
-  <script src="entertainment.js"></script>
+<script src="entertainment.js"></script>
 
 </body>
-
-            </html>
+</html>
