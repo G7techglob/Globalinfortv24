@@ -1,198 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlobalInforTV24 | Politics</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="politics.css" />
+<title>GlobalInforTV24 | Politics</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="politics.css">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo-section">
-  <img src="logo1.png" alt="GlobalInforTV24 Logo" class="logo-img">
-      <div>
-        <h1>GlobalInforTV24</h1>
-        <p>Politics News Network</p>
-      </div>
-    </div>
+<!-- HEADER -->
+<header class="header">
 
-    <nav id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="world.html">World</a>
-      <a href="#" class="active">Politics</a>
-      <a href="business.html">Business news</a>
-      <a href="technology.html">Technology news</a>
-      <a href="sport.html">Sports news</a>
-      <a href="contact.html">Contact us</a>
-    </nav>
-
-    <div class="menu-btn" id="menuBtn">
-      <i class="fa-solid fa-bars"></i>
-    </div>
-  </header>
-
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-      <span class="tag">LIVE POLITICS</span>
-      <h2>Breaking Political Stories From Around The World</h2>
-      <p>
-        Stay informed with trusted global political reports, election updates,
-        leadership decisions, diplomatic news, and policy analysis.
-      </p>
-
-      <button>Watch Live Updates</button>
-    </div>
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <main>
-
-    <!-- LEFT CONTENT -->
-    <section class="main-news">
-
-      <div class="section-title">
-        <h3>Top Political Headlines</h3>
-      </div>
-
-<div class="news-grid" id="newsGrid">
-  <!-- LIVE RSS NEWS WILL LOAD HERE -->
+<div class="logo">
+<img src="images/logo1.png" alt="GlobalInforTV24">
+<span>GlobalInforTV24</span>
 </div>
-    </section>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+<button class="menu-btn" id="menuBtn">
+☰
+</button>
 
-      <div class="sidebar-box">
-        <h3>Trending Politics</h3>
+</header>
 
-        <div class="trend-item">
-          <span>01</span>
-          <p>Election campaigns continue across multiple nations.</p>
-        </div>
+<!-- NAVIGATION -->
+<nav class="navbar" id="navbar">
 
-        <div class="trend-item">
-          <span>02</span>
-          <p>Global economic reforms dominate political discussions.</p>
-        </div>
+<a href="index.html">Home</a>
+<a href="politics.html">Politics</a>
+<a href="technology.html">Technology</a>
+<a href="business.html">Business</a>
+<a href="entertainment.html">Entertainment</a>
+<a href="sports.html">Sports</a>
 
-        <div class="trend-item">
-          <span>03</span>
-          <p>Leaders call for stronger international partnerships.</p>
-        </div>
+</nav>
 
-        <div class="trend-item">
-          <span>04</span>
-          <p>Political analysts discuss security policy changes.</p>
-        </div>
-      </div>
+<!-- HERO -->
+<section class="hero">
 
-      <div class="sidebar-box subscribe-box">
-        <h3>Newsletter</h3>
-        <p>Get daily political updates directly to your email.</p>
+<h1>Political News</h1>
 
-        <form>
-          <input type="email" placeholder="Enter your email">
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
+<p>
+Latest political headlines from trusted global news organizations.
+</p>
 
-    </aside>
-  </main>
+<button id="refreshBtn">
+Refresh News
+</button>
 
-  <!-- VIDEO SECTION -->
-  <section class="video-section">
-    <div class="section-title center">
-      <h3>Political Video Reports</h3>
-    </div>
+</section>
 
-    <div class="video-grid">
+<!-- NEWS GRID -->
+<main>
 
-      <div class="video-card">
-        <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop" alt="Video">
-        <div class="play-btn">
-          <i class="fa-solid fa-play"></i>
-        </div>
-        <h4>Inside Global Political Developments</h4>
-      </div>
+<div id="newsGrid" class="news-grid">
 
-      <div class="video-card">
-        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1200&auto=format&fit=crop" alt="Video">
-        <div class="play-btn">
-          <i class="fa-solid fa-play"></i>
-        </div>
-        <h4>Leaders Discuss International Agreements</h4>
-      </div>
+<div class="loading">
+Loading Political News...
+</div>
 
-      <div class="video-card">
-        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1200&auto=format&fit=crop" alt="Video">
-        <div class="play-btn">
-          <i class="fa-solid fa-play"></i>
-        </div>
-        <h4>Economic Policy Debate Analysis</h4>
-      </div>
+</div>
 
-    </div>
-  </section>
+</main>
 
-  <!-- FOOTER -->
-  <footer>
+<footer>
 
-    <div class="footer-container">
+<p>
+© 2026 GlobalInforTV24. All Rights Reserved.
+</p>
 
-      <div class="footer-box">
-        <h3>GlobalInforTV24</h3>
-        <p>
-          Delivering trusted international politics news, reports,
-          interviews, and global updates 24/7.
-        </p>
-      </div>
+</footer>
 
-      <div class="footer-box">
-        <h3>Quick Links</h3>
-        <a href="index.html">Home</a>
-        <a href="business.html">business news</a>
-        <a href="world.html">World news</a>
-        <a href="entertainment.html">entertainment news</a>
-        <a href="contact.html">Contact us</a>
-      </div>
+<script src="politics.js"></script>
 
-      <div class="footer-box">
-        <h3>Media Links</h3>
-        <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
-        <a href="#"><i class="fab fa-x-twitter"></i> X / Twitter</a>
-        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-        <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
-      </div>
-
-      <div class="footer-box">
-        <h3>Contact</h3>
-        <p>Email: info@globalinfortv24.com</p>
-        <p>Politics Desk: +000 000 0000</p>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 GlobalInforTV24. All Rights Reserved.</p>
-    </div>
-
-  </footer>
-
-  <!-- JS -->
-  <script src="politics.js"></script>
 </body>
-</html> 
+</html>
