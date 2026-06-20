@@ -1,14 +1,14 @@
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
   getFirestore,
   collection,
   getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-/* FIREBASE */
+/* =========================
+FIREBASE CONFIG
+========================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyBANgzG2rW8QGdhTcd0ceL7PHwAk4bYfDg",
@@ -22,7 +22,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* MOBILE MENU */
+/* =========================
+MOBILE MENU
+========================= */
 
 const menuBtn = document.getElementById("menuBtn");
 const navbar = document.getElementById("navbar");
@@ -33,8 +35,7 @@ if (menuBtn && navbar) {
   });
 }
 
-const navLinks =
-document.querySelectorAll(".navbar a");
+const navLinks = document.querySelectorAll(".navbar a");
 
 navLinks.forEach(link => {
   link.addEventListener("click", () => {
@@ -42,55 +43,68 @@ navLinks.forEach(link => {
   });
 });
 
-/* SUBSCRIBE */
+/* =========================
+SUBSCRIBE FORM
+========================= */
 
 const form = document.querySelector("form");
 
 if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    alert(
-      "Thank you for subscribing to GlobalInforTV24!"
-    );
+    alert("Thank you for subscribing to GlobalInforTV24!");
   });
 }
 
-/* LOAD NEWS FROM FIRESTORE */
+/* =========================
+LOAD NEWS FROM FIRESTORE
+========================= */
 
-const newsContainer =
-document.getElementById("news-container");
+const newsContainer = document.getElementById("news-container");
 
 async function loadNews() {
 
   if (!newsContainer) return;
 
-  newsContainer.innerHTML = "";
+  newsContainer.innerHTML = "<p>Loading news...</p>";
 
-  const querySnapshot =
-  await getDocs(
-    collection(db, "news")
-  );
+  try {
 
-  querySnapshot.forEach((doc) => {
+    const querySnapshot = await getDocs(
+      collection(db, "news")
+    );
 
-    const data = doc.data();
+    newsContainer.innerHTML = "";
 
-    newsContainer.innerHTML += `
-      <article class="news-item">
+    querySnapshot.forEach((doc) => {
 
-        <div class="news-text">
+      const data = doc.data();
 
-          <h3>${data.title || ""}</h3>
+      newsContainer.innerHTML += `
+        <article class="news-item">
 
-          <p>${data.content || ""}</p>
+          <div class="news-text">
 
-          <small>${data.date || ""}</small>
+            <h3>${data.title || ""}</h3>
 
-        </div>
+            <p>${data.content || ""}</p>
 
-      </article>
-    `;
-  });
+            <small>${data.date || ""}</small>
+
+          </div>
+
+        </article>
+      `;
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    newsContainer.innerHTML =
+      "<p>Unable to load news.</p>";
+
+  }
 
 }
 
