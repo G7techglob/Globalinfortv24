@@ -97,12 +97,14 @@ async function loadNews() {
       `;
     });
 
-  } catch (error) {
+  } 
+  
+  catch (error) {
 
-    console.error(error);
+  console.error("FIRESTORE ERROR:", error);
 
-    newsContainer.innerHTML =
-      "<p>Unable to load news.</p>";
+  newsContainer.innerHTML =
+    `<p>${error.message}</p>`;
 
   }
 
